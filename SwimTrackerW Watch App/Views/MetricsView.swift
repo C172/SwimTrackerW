@@ -53,7 +53,7 @@ struct MetricsView: View {
                     .foregroundColor(.orange)
 
                     Image(systemName: "heart.fill")
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundColor(.red)
 
                     HeartRateZoneViewSimple(currentHeartRate: workoutManager.heartRate)

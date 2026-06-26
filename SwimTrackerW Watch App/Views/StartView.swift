@@ -14,28 +14,26 @@ struct StartView: View {
     @State private var navigationPath = NavigationPath()
     @State private var isStartingWorkout = false
 
-    let step = 1
-    let range = 1...50
-
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            VStack(spacing: 12) {
-                HStack {
-                    NavigationLink(destination: SettingsView()) {
-                        Text("Setup")
-                    }
-                    .buttonStyle(.plain)
-                    Spacer()
-                }
+            VStack(spacing: 10) {
 
-                Spacer()
-
-                Text("Pool length(m)")
+                Text("Pool")
                     .font(.title3)
 
-                Stepper(value: $poolLength, in: range, step: step) {
-                    Text("\(poolLength)")
+                HStack(spacing: 16) {
+                    poolLengthButton(length: 25)
+                    poolLengthButton(length: 50)
                 }
+
+                NavigationLink(destination: CustomPoolLengthView(poolLength: $poolLength)) {
+                    Text(isCustomLength ? "Anpassad: \(poolLength) m" : "Anpassad längd")
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
 
                 Button("Start") {
                     startWorkoutAndNavigate()
@@ -66,6 +64,14 @@ struct StartView: View {
                     EmptyView()
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    NavigationLink(destination: SettingsView()) {
+                        Text("Setup")
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
             .onAppear {
                 workoutManager.requestAuthorization()
                 if workoutManager.locationPermissionStatus == .notDetermined {
@@ -73,6 +79,27 @@ struct StartView: View {
                 }
             }
         }
+    }
+
+    private var isCustomLength: Bool {
+        poolLength != 25 && poolLength != 50
+    }
+
+    @ViewBuilder
+    private func poolLengthButton(length: Int) -> some View {
+        Button {
+            poolLength = length
+        } label: {
+            Text("\(length) m")
+                .font(.title3)
+                .foregroundColor(poolLength == length ? .white : .blue)
+                .frame(maxWidth: .infinity)
+                .frame(height: 30)
+                .padding()
+                .background(poolLength == length ? Color.blue : Color.blue.opacity(0.15))
+                .cornerRadius(10)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 
     private func startWorkoutAndNavigate() {
