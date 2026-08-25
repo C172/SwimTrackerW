@@ -24,6 +24,12 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var distance: Double = 0
     @Published var workout: HKWorkout?
     @Published var waterTemperature: Double = 0
+    @Published var splitTimes: [TimeInterval] = []
+    @Published var lastSplitTime: TimeInterval? = nil
+    var bestSplitTime: TimeInterval? { splitTimes.min() }
+
+    private var lastSplitDistance: Double = 0
+    private var lastSplitDate: Date = Date()
 
     var selectedWorkout: HKWorkoutActivityType?
 
@@ -182,6 +188,9 @@ class WorkoutManager: NSObject, ObservableObject {
         heartRate = 0
         distance = 0
         waterTemperature = 0
+        splitTimes = []
+        lastSplitTime = nil
+        lastSplitDistance = 0
         running = false
         isSessionActive = false
         showingDiscardAlert = false
@@ -241,12 +250,41 @@ class WorkoutManager: NSObject, ObservableObject {
                 self.activeEnergy = statistics.sumQuantity()?.doubleValue(for: .kilocalorie()) ?? 0
             case HKQuantityType.quantityType(forIdentifier: .distanceSwimming):
                 self.distance = statistics.sumQuantity()?.doubleValue(for: .meter()) ?? 0
+                self.checkSplit(newDistance: self.distance)
             case HKQuantityType.quantityType(forIdentifier: .waterTemperature):
                 self.waterTemperature = statistics.mostRecentQuantity()?.doubleValue(for: .degreeCelsius()) ?? 0
             default:
                 return
             }
         }
+    }
+
+    // MARK: - Preview Helper
+
+    static var preview: WorkoutManager {
+        let m = WorkoutManager()
+        m.running = true
+        m.isSessionActive = true
+        m.heartRate = 142
+        m.distance = 250
+        m.splitTimes = [102.3, 98.7]
+        m.lastSplitTime = 102.3
+        return m
+    }
+
+    // MARK: - Split Tracking
+
+    private func checkSplit(newDistance: Double) {
+        let splitsPassed = Int(newDistance / 100.0)
+        let previousSplits = Int(lastSplitDistance / 100.0)
+        guard splitsPassed > previousSplits else { return }
+
+        let now = Date()
+        let elapsed = now.timeIntervalSince(lastSplitDate)
+        splitTimes.append(elapsed)
+        lastSplitTime = elapsed
+        lastSplitDate = now
+        lastSplitDistance = newDistance
     }
 
     // MARK: - Water Lock

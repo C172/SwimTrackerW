@@ -63,6 +63,11 @@ struct MetricsView: View {
                     .fontWeight(.regular)
                     .foregroundColor(.white)
 
+                // Split per 100m
+                if let last = workoutManager.lastSplitTime {
+                    SplitView(last: last)
+                }
+
                 // Laptimer visas bara på Ultra
                  if isUltra {
                      LapTimerView()
@@ -87,7 +92,7 @@ struct MetricsView: View {
 struct MetricsView_Previews: PreviewProvider {
     static var previews: some View {
         MetricsView()
-            .environmentObject(WorkoutManager())
+            .environmentObject(WorkoutManager.preview)
     }
 }
 

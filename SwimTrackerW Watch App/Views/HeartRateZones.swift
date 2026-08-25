@@ -40,7 +40,7 @@ enum HeartRateZone: Int, CaseIterable {
         case .zone1: return "Recovery"
         case .zone2: return "Aerobic"
         case .zone3: return "Tempo"
-        case .zone4: return "Threshold"
+        case .zone4: return "Threshld"
         case .zone5: return "Anerobic"
         }
     }
@@ -70,19 +70,22 @@ enum HeartRateZone: Int, CaseIterable {
 struct HeartRateZones {
     let restingHeartRate: Int
     let maxHeartRate: Int
-    
+
+    // Vid simning är pulsen ~10 bpm lägre för samma ansträngning
+    private let swimmingOffset = 10
+
     // Heart Rate Reserve (HRR)
     private var heartRateReserve: Int {
         maxHeartRate - restingHeartRate
     }
-    
+
     // Beräkna pulsintervall för en specifik zon
     func range(for zone: HeartRateZone) -> ClosedRange<Int> {
-        let lower = restingHeartRate + Int(Double(heartRateReserve) * zone.intensityRange.lowerBound)
-        let upper = restingHeartRate + Int(Double(heartRateReserve) * zone.intensityRange.upperBound)
+        let lower = restingHeartRate + Int(Double(heartRateReserve) * zone.intensityRange.lowerBound) - swimmingOffset
+        let upper = restingHeartRate + Int(Double(heartRateReserve) * zone.intensityRange.upperBound) - swimmingOffset
         return lower...upper
     }
-    
+
     // Bestäm vilken zon en given puls tillhör
     func zone(for heartRate: Int) -> HeartRateZone? {
         for zone in HeartRateZone.allCases {

@@ -13,17 +13,15 @@ struct HeartRateZoneViewSimple: View {
     @AppStorage("maxHeartRate") private var maxHeartRate: Int = 190
     @AppStorage("useCustomMaxHR") private var useCustomMaxHR: Bool = false
     @AppStorage("userAge") private var userAge: Int = 30
-    
-    // Beräknad max puls baserat på ålder
+
     private var calculatedMaxHeartRate: Int {
         208 - Int(0.7 * Double(userAge))
     }
-    
-    // Faktisk max puls som används
+
     private var effectiveMaxHeartRate: Int {
         useCustomMaxHR ? maxHeartRate : calculatedMaxHeartRate
     }
-    
+
     private var heartRateZones: HeartRateZones {
         HeartRateZones(restingHeartRate: restingHeartRate, maxHeartRate: effectiveMaxHeartRate)
     }

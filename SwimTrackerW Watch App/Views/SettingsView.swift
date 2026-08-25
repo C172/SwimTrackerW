@@ -113,30 +113,24 @@ struct SettingsView: View {
 struct HeartRateZonesPreview: View {
     let restingHR: Int
     let maxHR: Int
-    
-    var heartRateZones: HeartRateZones {
+
+    private var zones: HeartRateZones {
         HeartRateZones(restingHeartRate: restingHR, maxHeartRate: maxHR)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            ForEach(Array(HeartRateZone.allCases.enumerated()), id: \.offset) { index, zone in
-                let range = heartRateZones.range(for: zone)
+            ForEach(Array(HeartRateZone.allCases.enumerated()), id: \.offset) { _, zone in
+                let range = zones.range(for: zone)
                 HStack {
-                    // Färgindikator
                     RoundedRectangle(cornerRadius: 4)
                         .fill(zone.color)
                         .frame(width: 20, height: 16)
-                    
-                    // Zonnamn
-                    Text(zone.displayName)
+                    Text(zone.description)
                         .font(.caption)
                         .fontWeight(.medium)
-                    
                     Spacer()
-                    
-                    // Pulsintervall
-                    Text("\(range.lowerBound)-\(range.upperBound)")
+                    Text("\(range.lowerBound)–\(range.upperBound)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

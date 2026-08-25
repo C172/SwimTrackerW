@@ -27,7 +27,7 @@ struct StartView: View {
                 }
 
                 NavigationLink(destination: CustomPoolLengthView(poolLength: $poolLength)) {
-                    Text(isCustomLength ? "Anpassad: \(poolLength) m" : "Anpassad längd")
+                    Text(isCustomLength ? "Custom: \(poolLength) m" : "Custom length")
                         .font(.caption)
                         .foregroundColor(.blue)
                 }

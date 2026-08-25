@@ -18,7 +18,7 @@ struct CustomPoolLengthView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            Text("Anpassad längd")
+            Text("Custom length")
                 .font(.headline)
 
             Stepper(value: $poolLength, in: range, step: step) {
@@ -28,7 +28,7 @@ struct CustomPoolLengthView: View {
 
             Spacer()
 
-            Button("Klar") {
+            Button("Done") {
                 dismiss()
             }
             .font(.title3)
