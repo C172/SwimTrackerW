@@ -14,8 +14,10 @@ struct SplitView: View {
         HStack(spacing: 4) {
             Text(formatSplit(last))
                 .foregroundStyle(.cyan)
+            Text("/ length")
+                .foregroundStyle(.secondary)
         }
-        .font(.system(.title, design: .rounded).monospacedDigit())
+        .font(.system(.caption, design: .monospaced).monospacedDigit())
         .fixedSize()
     }
 

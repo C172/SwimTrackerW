@@ -24,12 +24,12 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var distance: Double = 0
     @Published var workout: HKWorkout?
     @Published var waterTemperature: Double = 0
-    @Published var splitTimes: [TimeInterval] = []
-    @Published var lastSplitTime: TimeInterval? = nil
-    var bestSplitTime: TimeInterval? { splitTimes.min() }
+    @Published var lastLapTime: TimeInterval? = nil
 
-    private var lastSplitDistance: Double = 0
-    private var lastSplitDate: Date = Date()
+    private var lastLapDate: Date = .distantFuture
+    private var processedLapEventCount: Int = 0
+    private var repStartDate: Date = .distantFuture   // start av aktuellt rep
+    private var lapsSinceRepStart: Int = 0             // antal längder sedan vila
 
     var selectedWorkout: HKWorkoutActivityType?
 
@@ -188,9 +188,11 @@ class WorkoutManager: NSObject, ObservableObject {
         heartRate = 0
         distance = 0
         waterTemperature = 0
-        splitTimes = []
-        lastSplitTime = nil
-        lastSplitDistance = 0
+        lastLapTime = nil
+        lastLapDate = .distantFuture
+        processedLapEventCount = 0
+        repStartDate = .distantFuture
+        lapsSinceRepStart = 0
         running = false
         isSessionActive = false
         showingDiscardAlert = false
@@ -250,7 +252,6 @@ class WorkoutManager: NSObject, ObservableObject {
                 self.activeEnergy = statistics.sumQuantity()?.doubleValue(for: .kilocalorie()) ?? 0
             case HKQuantityType.quantityType(forIdentifier: .distanceSwimming):
                 self.distance = statistics.sumQuantity()?.doubleValue(for: .meter()) ?? 0
-                self.checkSplit(newDistance: self.distance)
             case HKQuantityType.quantityType(forIdentifier: .waterTemperature):
                 self.waterTemperature = statistics.mostRecentQuantity()?.doubleValue(for: .degreeCelsius()) ?? 0
             default:
@@ -267,24 +268,42 @@ class WorkoutManager: NSObject, ObservableObject {
         m.isSessionActive = true
         m.heartRate = 142
         m.distance = 250
-        m.splitTimes = [102.3, 98.7]
-        m.lastSplitTime = 102.3
+        m.lastLapTime = 42.3
         return m
     }
 
-    // MARK: - Split Tracking
+    // MARK: - Lap & Rep Tracking
 
-    private func checkSplit(newDistance: Double) {
-        let splitsPassed = Int(newDistance / 100.0)
-        let previousSplits = Int(lastSplitDistance / 100.0)
-        guard splitsPassed > previousSplits else { return }
+    /// Anropas vid varje .lap-event (= varje avslutad längd).
+    /// Mäter tid per 100m inom ett rep. Vid vila (pauseOrResumeRequest)
+    /// nollställs rep-state så nästa rep börjar från noll.
+    private func recordLap(at date: Date) {
+        // Första längden i ett rep – sätt startpunkt
+        if repStartDate == .distantFuture {
+            repStartDate = date
+            lapsSinceRepStart = 0
+        }
 
-        let now = Date()
-        let elapsed = now.timeIntervalSince(lastSplitDate)
-        splitTimes.append(elapsed)
-        lastSplitTime = elapsed
-        lastSplitDate = now
-        lastSplitDistance = newDistance
+        lapsSinceRepStart += 1
+
+        // Hur många längder krävs för 100m?
+        let lapsPerHundred = max(1, Int((100.0 / lapLength).rounded()))
+
+        if lapsSinceRepStart % lapsPerHundred == 0 {
+            // 100m avklarade – beräkna tid från repStartDate + föregående 100m-mark
+            let elapsed = date.timeIntervalSince(lastLapDate == .distantFuture ? repStartDate : lastLapDate)
+            lastLapTime = elapsed
+            lastLapDate = date
+            print("🏊 100m split: \(String(format: "%.1f", elapsed))s (längd \(lapsSinceRepStart))")
+        }
+    }
+
+    /// Anropas när simmare vilar (paus-event). Nollställer rep-tracking.
+    private func resetRepState() {
+        repStartDate = .distantFuture
+        lastLapDate = .distantFuture
+        lapsSinceRepStart = 0
+        print("⏸ Rep avslutat – väntar på nästa rep")
     }
 
     // MARK: - Water Lock
@@ -358,7 +377,7 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
                 self.isSessionActive = true
                 self.workoutLocation = nil
                 self.logWorkoutStartLocation()
-                
+                self.lastLapDate = Date()   // startpunkt för första längd
                 // Aktivera träningsläge för att förhindra bakgrundsförflyttning
                 self.setWorkoutActiveState(true)
 
@@ -445,11 +464,23 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
 extension WorkoutManager: HKLiveWorkoutBuilderDelegate {
 
     func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
-        guard let event = workoutBuilder.workoutEvents.last,
-              event.type == .pauseOrResumeRequest else { return }
-        DispatchQueue.main.async {
-            self.running ? self.pause() : self.resume()
+        let events = workoutBuilder.workoutEvents
+
+        for event in events.dropFirst(processedLapEventCount) {
+            switch event.type {
+            case .pauseOrResumeRequest:
+                DispatchQueue.main.async {
+                    self.running ? self.pause() : self.resume()
+                    // Vid paus: rep avslutat, nollställ för nästa rep
+                    if self.running { self.resetRepState() }
+                }
+            case .lap:
+                DispatchQueue.main.async { self.recordLap(at: event.dateInterval.end) }
+            default:
+                break
+            }
         }
+        processedLapEventCount = events.count
     }
 
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {

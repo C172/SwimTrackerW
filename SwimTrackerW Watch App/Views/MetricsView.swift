@@ -63,8 +63,8 @@ struct MetricsView: View {
                     .fontWeight(.regular)
                     .foregroundColor(.white)
 
-                // Split per 100m
-                if let last = workoutManager.lastSplitTime {
+                // Tid per längd (uppdateras vid varje vändning)
+                if let last = workoutManager.lastLapTime {
                     SplitView(last: last)
                 }
 
