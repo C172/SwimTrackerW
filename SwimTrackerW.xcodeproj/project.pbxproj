@@ -7,10 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C4F35363304C5461001805EA /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44F76E3304ABF490033FE9E /* WidgetKit.framework */; };
+		C4F35364304C5461001805EA /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44F76E5304ABF490033FE9E /* SwiftUI.framework */; };
+		C4F35371304C5462001805EA /* SwimFlowComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C4F35362304C5461001805EA /* SwimFlowComplicationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4FB675A2E476CF70043C55E /* SwimTrackerW Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C4FB67592E476CF70043C55E /* SwimTrackerW Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C4F3536F304C5462001805EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4FB674D2E476CF70043C55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4F35361304C5461001805EA;
+			remoteInfo = SwimFlowComplicationExtension;
+		};
 		C4FB675B2E476CF70043C55E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C4FB674D2E476CF70043C55E /* Project object */;
@@ -21,6 +31,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		C44F76F4304ABF490033FE9E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C4F35371304C5462001805EA /* SwimFlowComplicationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4FB67692E476CF70043C55E /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,11 +56,32 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C44F76E3304ABF490033FE9E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		C44F76E5304ABF490033FE9E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		C4F35362304C5461001805EA /* SwimFlowComplicationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SwimFlowComplicationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4FB67532E476CF70043C55E /* SwimTrackerW.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwimTrackerW.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4FB67592E476CF70043C55E /* SwimTrackerW Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwimTrackerW Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C4F35374304C5462001805EA /* Exceptions for "SwimFlowComplication" folder in "SwimFlowComplicationExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C4F35361304C5461001805EA /* SwimFlowComplicationExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		C4F35365304C5461001805EA /* SwimFlowComplication */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C4F35374304C5462001805EA /* Exceptions for "SwimFlowComplication" folder in "SwimFlowComplicationExtension" target */,
+			);
+			path = SwimFlowComplication;
+			sourceTree = "<group>";
+		};
 		C4FB675D2E476CF70043C55E /* SwimTrackerW Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "SwimTrackerW Watch App";
@@ -48,6 +90,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C4F3535F304C5461001805EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4F35364304C5461001805EA /* SwiftUI.framework in Frameworks */,
+				C4F35363304C5461001805EA /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4FB67562E476CF70043C55E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -58,10 +109,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C44F76E2304ABF490033FE9E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C44F76E3304ABF490033FE9E /* WidgetKit.framework */,
+				C44F76E5304ABF490033FE9E /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C4FB674C2E476CF70043C55E = {
 			isa = PBXGroup;
 			children = (
 				C4FB675D2E476CF70043C55E /* SwimTrackerW Watch App */,
+				C4F35365304C5461001805EA /* SwimFlowComplication */,
+				C44F76E2304ABF490033FE9E /* Frameworks */,
 				C4FB67542E476CF70043C55E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +133,7 @@
 			children = (
 				C4FB67532E476CF70043C55E /* SwimTrackerW.app */,
 				C4FB67592E476CF70043C55E /* SwimTrackerW Watch App.app */,
+				C4F35362304C5461001805EA /* SwimFlowComplicationExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +141,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		C4F35361304C5461001805EA /* SwimFlowComplicationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4F35375304C5462001805EA /* Build configuration list for PBXNativeTarget "SwimFlowComplicationExtension" */;
+			buildPhases = (
+				C4F3535E304C5461001805EA /* Sources */,
+				C4F3535F304C5461001805EA /* Frameworks */,
+				C4F35360304C5461001805EA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C4F35365304C5461001805EA /* SwimFlowComplication */,
+			);
+			name = SwimFlowComplicationExtension;
+			packageProductDependencies = (
+			);
+			productName = SwimFlowComplicationExtension;
+			productReference = C4F35362304C5461001805EA /* SwimFlowComplicationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		C4FB67522E476CF70043C55E /* SwimTrackerW */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4FB676A2E476CF70043C55E /* Build configuration list for PBXNativeTarget "SwimTrackerW" */;
@@ -104,10 +189,12 @@
 				C4FB67552E476CF70043C55E /* Sources */,
 				C4FB67562E476CF70043C55E /* Frameworks */,
 				C4FB67572E476CF70043C55E /* Resources */,
+				C44F76F4304ABF490033FE9E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4F35370304C5462001805EA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C4FB675D2E476CF70043C55E /* SwimTrackerW Watch App */,
@@ -126,9 +213,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					C4F35361304C5461001805EA = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
 					C4FB67522E476CF70043C55E = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -153,11 +243,19 @@
 			targets = (
 				C4FB67522E476CF70043C55E /* SwimTrackerW */,
 				C4FB67582E476CF70043C55E /* SwimTrackerW Watch App */,
+				C4F35361304C5461001805EA /* SwimFlowComplicationExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C4F35360304C5461001805EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4FB67512E476CF70043C55E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -175,6 +273,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C4F3535E304C5461001805EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C4FB67552E476CF70043C55E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -185,6 +290,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C4F35370304C5462001805EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4F35361304C5461001805EA /* SwimFlowComplicationExtension */;
+			targetProxy = C4F3536F304C5462001805EA /* PBXContainerItemProxy */;
+		};
 		C4FB675C2E476CF70043C55E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C4FB67582E476CF70043C55E /* SwimTrackerW Watch App */;
@@ -193,6 +303,73 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		C4F35372304C5462001805EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RLX65CB69G;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwimFlowComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SwimFlowComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = se.benini.SwimTrackerW.watchkitapp.SwimFlowComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Debug;
+		};
+		C4F35373304C5462001805EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RLX65CB69G;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwimFlowComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SwimFlowComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = se.benini.SwimTrackerW.watchkitapp.SwimFlowComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+			};
+			name = Release;
+		};
 		C4FB67642E476CF70043C55E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -412,6 +589,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C4F35375304C5462001805EA /* Build configuration list for PBXNativeTarget "SwimFlowComplicationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4F35372304C5462001805EA /* Debug */,
+				C4F35373304C5462001805EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C4FB67502E476CF70043C55E /* Build configuration list for PBXProject "SwimTrackerW" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
