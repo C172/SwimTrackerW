@@ -25,6 +25,7 @@ class WorkoutManager: NSObject, ObservableObject {
     @Published var workout: HKWorkout?
     @Published var waterTemperature: Double = 0
     @Published var lastLapTime: TimeInterval? = nil
+    @Published var lapEventCount: Int = 0
 
     private var lastLapDate: Date = .distantFuture
     private var processedLapEventCount: Int = 0
@@ -193,6 +194,7 @@ class WorkoutManager: NSObject, ObservableObject {
         processedLapEventCount = 0
         repStartDate = .distantFuture
         lapsSinceRepStart = 0
+        lapEventCount = 0
         running = false
         isSessionActive = false
         showingDiscardAlert = false
@@ -277,7 +279,7 @@ class WorkoutManager: NSObject, ObservableObject {
     /// Anropas vid varje .lap-event (= varje avslutad längd).
     /// Mäter tid per 100m inom ett rep. Vid vila (pauseOrResumeRequest)
     /// nollställs rep-state så nästa rep börjar från noll.
-    private func recordLap(at date: Date) {
+    internal func recordLap(at date: Date) {
         // Första längden i ett rep – sätt startpunkt
         if repStartDate == .distantFuture {
             repStartDate = date
@@ -285,6 +287,7 @@ class WorkoutManager: NSObject, ObservableObject {
         }
 
         lapsSinceRepStart += 1
+        lapEventCount += 1
 
         // Hur många längder krävs för 100m?
         let lapsPerHundred = max(1, Int((100.0 / lapLength).rounded()))
@@ -303,6 +306,7 @@ class WorkoutManager: NSObject, ObservableObject {
         repStartDate = .distantFuture
         lastLapDate = .distantFuture
         lapsSinceRepStart = 0
+        lapEventCount = 0
         print("⏸ Rep avslutat – väntar på nästa rep")
     }
 
@@ -475,7 +479,9 @@ extension WorkoutManager: HKLiveWorkoutBuilderDelegate {
                     if self.running { self.resetRepState() }
                 }
             case .lap:
-                DispatchQueue.main.async { self.recordLap(at: event.dateInterval.end) }
+                if self.running {
+                    DispatchQueue.main.async { self.recordLap(at: event.dateInterval.end) }
+                }
             default:
                 break
             }
@@ -490,3 +496,4 @@ extension WorkoutManager: HKLiveWorkoutBuilderDelegate {
         }
     }
 }
+

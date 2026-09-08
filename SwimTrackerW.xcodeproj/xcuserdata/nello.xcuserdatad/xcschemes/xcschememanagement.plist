@@ -7,7 +7,7 @@
 		<key>SwimFlowComplicationExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>SwimTrackerComplicationsExtension.xcscheme_^#shared#^_</key>
 		<dict>
@@ -17,7 +17,35 @@
 		<key>SwimTrackerW Watch App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+		<key>SwimTrackerW Watch AppTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>C4A88FD4304FFF5B00EA0E77</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C4F35361304C5461001805EA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C4FB67522E476CF70043C55E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C4FB67582E476CF70043C55E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

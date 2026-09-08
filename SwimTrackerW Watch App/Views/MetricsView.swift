@@ -63,6 +63,15 @@ struct MetricsView: View {
                     .fontWeight(.regular)
                     .foregroundColor(.white)
 
+                // Debug: Visar intern längdräknare och uppskattad simmad distans
+//                Text("L: \(workoutManager.lapEventCount), D: \(Int(Double(workoutManager.lapEventCount) * workoutManager.lapLength)) m")
+//                    .foregroundColor(.cyan)
+//                    .font(.caption)
+                Text("L: \(workoutManager.lapEventCount), D: \(Int((Double(workoutManager.lapEventCount) * (workoutManager.lapLength.isFinite ? workoutManager.lapLength : 0)))) m")
+                       .foregroundColor(.cyan)
+                       .font(.caption)
+                if !workoutManager.lapLength.isFinite { Text("Fel: Ogiltig längd") }
+
                 // Tid per längd (uppdateras vid varje vändning)
                 if let last = workoutManager.lastLapTime {
                     SplitView(last: last)
@@ -113,3 +122,4 @@ private struct MetricsTimelineSchedule: TimelineSchedule {
         )
     }
 }
+
