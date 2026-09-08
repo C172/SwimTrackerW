@@ -25,14 +25,12 @@ struct MetricsView: View {
                 // Paus status
                 if !workoutManager.running && workoutManager.isSessionActive {
                     HStack {
-                        Image(systemName: "pause.circle.fill")
-                            .foregroundColor(.yellow)
                         Text("PAUSED")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(.yellow)
                     }
-                    .padding(.bottom,4)
+                    .padding(.bottom,2)
                 }
 
                 // Tid
@@ -63,24 +61,19 @@ struct MetricsView: View {
                     .fontWeight(.regular)
                     .foregroundColor(.white)
 
-                // Debug: Visar intern längdräknare och uppskattad simmad distans
-//                Text("L: \(workoutManager.lapEventCount), D: \(Int(Double(workoutManager.lapEventCount) * workoutManager.lapLength)) m")
-//                    .foregroundColor(.cyan)
-//                    .font(.caption)
-                Text("L: \(workoutManager.lapEventCount), D: \(Int((Double(workoutManager.lapEventCount) * (workoutManager.lapLength.isFinite ? workoutManager.lapLength : 0)))) m")
-                       .foregroundColor(.cyan)
-                       .font(.caption)
-                if !workoutManager.lapLength.isFinite { Text("Fel: Ogiltig längd") }
-
                 // Tid per längd (uppdateras vid varje vändning)
                 if let last = workoutManager.lastLapTime {
                     SplitView(last: last)
                 }
-
                 // Laptimer visas bara på Ultra
                  if isUltra {
                      LapTimerView()
                  }
+                
+                // Debug: Visar intern längdräknare och uppskattad simmad distans
+                Text("L: \(workoutManager.lapEventCount), D: \(Int((Double(workoutManager.lapEventCount) * (workoutManager.lapLength.isFinite ? workoutManager.lapLength : 0)))) m")
+                       .foregroundColor(.cyan)
+                       .font(.caption)
 
             }
             .font(.system(.title, design: .rounded)

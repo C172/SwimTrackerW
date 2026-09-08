@@ -377,19 +377,25 @@ extension WorkoutManager: HKWorkoutSessionDelegate {
 
             self.running = toState == .running
 
-            if toState == .running && fromState == .notStarted {
+            if toState == .running {
                 self.isSessionActive = true
-                self.workoutLocation = nil
-                self.logWorkoutStartLocation()
-                self.lastLapDate = Date()   // startpunkt för första längd
-                // Aktivera träningsläge för att förhindra bakgrundsförflyttning
+
+                // Bara vid allra första start
+                if fromState == .notStarted {
+                    self.workoutLocation = nil
+                    self.logWorkoutStartLocation()
+                    self.lastLapDate = Date()   // startpunkt för första längd
+                }
+
+                // Körs alltid när sessionen är aktiv – även vid återanslutning efter appstart
                 self.setWorkoutActiveState(true)
 
                 if self.selectedWorkout == .swimming {
                     self.enableWaterLockSafely()
                 }
 
-                if let completion = self.startWorkoutCompletion {
+                // Completion-handler bara relevant vid första start
+                if fromState == .notStarted, let completion = self.startWorkoutCompletion {
                     print("✅ Workout started")
                     completion(true)
                     self.startWorkoutCompletion = nil
